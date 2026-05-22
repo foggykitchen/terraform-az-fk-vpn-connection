@@ -1,27 +1,31 @@
 # terraform-az-fk-vpn-connection
 
-This repository contains a reusable **Terraform / OpenTofu module** for deploying **Azure Local Network Gateways** and **site-to-site VPN connections** bound to an existing Azure Virtual Network Gateway.
+This repository contains a reusable **Terraform/OpenTofu module** for deploying **Azure VPN edge connectivity primitives** such as **Local Network Gateways** and **site-to-site VPN connections** bound to an existing Azure Virtual Network Gateway.
+
+It is part of the **[FoggyKitchen.com training ecosystem](https://foggykitchen.com/courses-2/)** and serves as the Azure VPN edge building block for hybrid and multicloud connectivity patterns.
 
 ---
 
-## Purpose
+## 🎯 Purpose
 
-The module is designed for composable Azure VPN patterns where:
+The goal of this module is to provide a **clean, composable, and educational reference implementation** for Azure VPN edge connectivity:
 
-- the Azure Virtual Network Gateway is managed separately
-- one or more remote VPN tunnel endpoints must be modeled explicitly
-- IPSec connection settings should stay reusable and payload-driven
+- Focused on **Local Network Gateway and VPN connection resources**
+- No hidden Virtual Network Gateway, VNet, subnet, or Public IP creation
+- Designed to be composed with **terraform-az-fk-vng** and cloud-specific VPN edge modules
 
-It is intended to compose cleanly with `terraform-az-fk-vng` and cloud-specific VPN edge modules.
+This is **not** a full landing zone replacement. It is a **connectivity edge module** intended for learning, reuse, and composition.
 
 ---
 
-## What the module does
+## ✨ What the module does
 
 The module creates:
 
-- one or more `azurerm_local_network_gateway` resources
-- one or more `azurerm_virtual_network_gateway_connection` resources
+- Azure Local Network Gateways
+- Azure site-to-site VPN connections
+- Optional BGP settings on Local Network Gateways
+- Optional IPSec policy and traffic selector settings on VPN connections
 
 The module intentionally does **not** create:
 
@@ -31,15 +35,29 @@ The module intentionally does **not** create:
 - Virtual Network Gateways
 - Public IPs
 
-Those resources should be composed separately.
+Each of those concerns belongs in its own dedicated module or composition layer.
 
 ---
 
-## Example Usage
+## 📂 Repository Structure
+
+```bash
+terraform-az-fk-vpn-connection/
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── versions.tf
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 🚀 Example Usage
 
 ```hcl
 module "vpn_connection" {
-  source = "git::https://github.com/mlinxfeld/terraform-az-fk-vpn-connection.git?ref=v0.1.0"
+  source = "git::https://github.com/mlinxfeld/terraform-az-fk-vpn-connection.git?ref=v0.1.1"
 
   name                = "vpn-fk-demo"
   location            = "westeurope"
@@ -64,18 +82,25 @@ module "vpn_connection" {
 
 ---
 
-## Inputs
+## ⚙️ Module Inputs
 
-| Variable | Required | Description |
-|------|------|-------------|
-| `name` | ✅ | Base name for local gateways and VPN connections |
-| `resource_group_name` | ✅ | Resource group name |
-| `location` | ✅ | Azure region |
-| `local_network_gateways` | ✅ | Map of local network gateways |
-| `vpn_connections` | ✅ | Map of VPN connections |
-| `tags` | ❌ | Resource tags |
+### Core inputs
 
-### Local network gateway schema
+| Variable | Type | Required | Description |
+|--------|------|----------|-------------|
+| `name` | `string` | ✅ | Base name used for local gateways and VPN connections |
+| `resource_group_name` | `string` | ✅ | Resource group name |
+| `location` | `string` | ✅ | Azure region |
+| `tags` | `map(string)` | ❌ | Resource tags |
+
+### Connectivity objects
+
+| Variable | Type | Required | Description |
+|--------|------|----------|-------------|
+| `local_network_gateways` | `map(object)` | ✅ | Map of local network gateways keyed by logical name |
+| `vpn_connections` | `map(object)` | ✅ | Map of VPN connections keyed by logical name |
+
+### Local network gateway object schema
 
 ```hcl
 local_network_gateways = map(object({
@@ -90,7 +115,7 @@ local_network_gateways = map(object({
 }))
 ```
 
-### VPN connection schema
+### VPN connection object schema
 
 ```hcl
 vpn_connections = map(object({
@@ -125,7 +150,7 @@ vpn_connections = map(object({
 
 ---
 
-## Outputs
+## 📤 Outputs
 
 | Output | Description |
 |------|-------------|
@@ -136,6 +161,37 @@ vpn_connections = map(object({
 
 ---
 
-## License
+## 🧠 Design Philosophy
 
-Licensed under the **Universal Permissive License (UPL), Version 1.0**.
+- Explicit over implicit
+- Small modules over monoliths
+- Azure Virtual Network Gateway separated from VPN connection edge configuration
+- Optimized for **learning, reuse, and composition**
+
+This makes the module useful for:
+
+- Azure-to-OCI site-to-site VPN
+- Hybrid VPN foundations
+- Multicloud VPN labs
+- Progressive connectivity building blocks
+
+---
+
+## 📌 Notes
+
+- This module focuses on Azure VPN edge primitives rather than full topologies
+- Azure gateway creation should remain modeled in **terraform-az-fk-vng**
+- VNet, GatewaySubnet, and Public IP ownership should remain explicit and separate
+
+---
+
+## 🌐 Learn More
+
+Visit [FoggyKitchen.com](https://foggykitchen.com/) for Azure, multicloud, and Terraform/OpenTofu learning resources.
+
+---
+
+## 🪪 License
+
+Licensed under the **Universal Permissive License (UPL), Version 1.0**.  
+See [LICENSE](LICENSE) for details.
