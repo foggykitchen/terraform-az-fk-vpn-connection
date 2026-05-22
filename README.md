@@ -39,7 +39,7 @@ Those resources should be composed separately.
 
 ```hcl
 module "vpn_connection" {
-  source = "git::https://github.com/mlinxfeld/terraform-az-fk-vpn-connection.git?ref=main"
+  source = "git::https://github.com/mlinxfeld/terraform-az-fk-vpn-connection.git?ref=v0.1.0"
 
   name                = "vpn-fk-demo"
   location            = "westeurope"
