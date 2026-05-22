@@ -57,7 +57,7 @@ terraform-az-fk-vpn-connection/
 
 ```hcl
 module "vpn_connection" {
-  source = "git::https://github.com/mlinxfeld/terraform-az-fk-vpn-connection.git?ref=v0.1.1"
+  source = "git::https://github.com/foggykitchen/terraform-az-fk-vpn-connection.git?ref=v0.1.1"
 
   name                = "vpn-fk-demo"
   location            = "westeurope"
