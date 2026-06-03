@@ -4,6 +4,8 @@ This repository contains a reusable **Terraform/OpenTofu module** for deploying 
 
 It is part of the **[FoggyKitchen.com training ecosystem](https://foggykitchen.com/courses-2/)** and serves as the Azure VPN edge building block for hybrid and multicloud connectivity patterns.
 
+Support expectations are documented in [SUPPORT.md](SUPPORT.md).
+
 ---
 
 ## 🎯 Purpose
