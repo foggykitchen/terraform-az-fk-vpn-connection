@@ -2,7 +2,7 @@
 
 This repository contains a reusable **Terraform/OpenTofu module** for deploying **Azure VPN edge connectivity primitives** such as **Local Network Gateways** and **site-to-site VPN connections** bound to an existing Azure Virtual Network Gateway.
 
-It is part of the **[FoggyKitchen.com training ecosystem](https://foggykitchen.com/courses-2/)** and serves as the Azure VPN edge building block for hybrid and multicloud connectivity patterns.
+It is part of the **[FoggyKitchen.com training ecosystem](https://foggykitchen.com/)** and serves as the Azure VPN edge building block for hybrid and multicloud connectivity patterns.
 
 Support expectations are documented in [SUPPORT.md](SUPPORT.md).
 
